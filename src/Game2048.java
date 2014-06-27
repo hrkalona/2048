@@ -138,6 +138,7 @@ public class Game2048 extends Game {
         
         top_panel = new JPanel();
         top_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10, 80));
+        top_panel.setBackground(new Color(239, 239, 238));
         top_panel.setLayout(new FlowLayout());
         
         top_panel.add(label_2048);
@@ -148,6 +149,7 @@ public class Game2048 extends Game {
         
         top_panel2 = new JPanel();
         top_panel2.setPreferredSize(new Dimension(4 * 88 +  10, 30));
+        top_panel2.setBackground(new Color(239, 239, 238));
         top_panel2.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
         
         JLabel label2 = new JLabel("Join the numbers and get to the");
@@ -159,9 +161,11 @@ public class Game2048 extends Game {
         
         JPanel top_panel3 = new JPanel();
         top_panel3.setPreferredSize(new Dimension(30, 30));
+        top_panel3.setBackground(new Color(239, 239, 238));
         top_panel3.setLayout(new FlowLayout());
         
         final JLabel sound = new JLabel();
+        sound.setPreferredSize(new Dimension(23, 23));
         URL imageURL = getClass().getResource("/Icons/sound.png" );
         Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
         ImageIcon icon = new ImageIcon(image2);
