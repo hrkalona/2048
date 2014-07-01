@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -13,7 +12,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -389,38 +387,24 @@ public abstract class Game extends JFrame {
         arrows.setPreferredSize(new Dimension(3 * 59 + 4 * 3, 2 * 59 + 3 * 3));
         arrows.setLayout(new FlowLayout(FlowLayout.LEADING, 3, 3));
         arrows.setBackground(new Color(187, 173, 160, 200));
-        
-        URL imageURL = getClass().getResource("/Icons/up.png" );
-        Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-        ImageIcon icon = new ImageIcon(image2);
 
         JLabel label_up = new JLabel();
         label_up.setPreferredSize(new Dimension(59, 59));
-        label_up.setIcon(icon);
+        label_up.setIcon(getIcon("/Icons/up.png"));
         
-        imageURL = getClass().getResource("/Icons/left.png" );
-        image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-        icon = new ImageIcon(image2);
 
         JLabel label_left = new JLabel();
         label_left.setPreferredSize(new Dimension(59, 59));
-        label_left.setIcon(icon);
+        label_left.setIcon(getIcon("/Icons/left.png"));
         
-        imageURL = getClass().getResource("/Icons/down.png" );
-        image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-        icon = new ImageIcon(image2);
 
         JLabel label_down = new JLabel();
         label_down.setPreferredSize(new Dimension(59, 59));
-        label_down.setIcon(icon);
-        
-        imageURL = getClass().getResource("/Icons/right.png" );
-        image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-        icon = new ImageIcon(image2);
+        label_down.setIcon(getIcon("/Icons/down.png"));
 
         JLabel label_right = new JLabel();
         label_right.setPreferredSize(new Dimension(59, 59));
-        label_right.setIcon(icon);
+        label_right.setIcon(getIcon("/Icons/right.png"));
         
         JLabel temp = new JLabel("");
         temp.setPreferredSize(new Dimension(59, 59));
@@ -520,6 +504,11 @@ public abstract class Game extends JFrame {
 
         return as;
 
+    }
+    
+    protected ImageIcon getIcon(String path) {
+        
+        return new ImageIcon(getClass().getResource(path));
     }
     
     protected abstract void startGame();

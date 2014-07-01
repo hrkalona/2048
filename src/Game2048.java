@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -16,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -70,10 +67,7 @@ public class Game2048 extends Game {
             for(int j = 0; j < numbers[i].length; j++) {
                  board[i][j] = new JLabel();
                  board[i][j].setPreferredSize(new Dimension(88, 88));
-                 URL imageURL = getClass().getResource("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber()) + ".png" );
-                 Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-                 ImageIcon icon = new ImageIcon(image2);
-                 board[i][j].setIcon(icon);
+                 board[i][j].setIcon(getIcon("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber()) + ".png" ));
                  board_panel.add(board[i][j]);
             }
         }
@@ -166,10 +160,7 @@ public class Game2048 extends Game {
         
         final JLabel sound = new JLabel();
         sound.setPreferredSize(new Dimension(23, 23));
-        URL imageURL = getClass().getResource("/Icons/sound.png" );
-        Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-        ImageIcon icon = new ImageIcon(image2);
-        sound.setIcon(icon);
+        sound.setIcon(getIcon("/Icons/sound.png"));
         
         sound.addMouseListener(new MouseListener() {
 
@@ -178,17 +169,11 @@ public class Game2048 extends Game {
                 
                 if(sound_option) {
                     sound_option = false;
-                    URL imageURL = getClass().getResource("/Icons/no-sound.png" );
-                    Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-                    ImageIcon icon = new ImageIcon(image2);
-                    sound.setIcon(icon);
+                    sound.setIcon(getIcon("/Icons/no-sound.png"));
                 }
                 else {
                     sound_option = true;
-                    URL imageURL = getClass().getResource("/Icons/sound.png" );
-                    Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-                    ImageIcon icon = new ImageIcon(image2);
-                    sound.setIcon(icon);
+                    sound.setIcon(getIcon("/Icons/sound.png"));
                 }
             }
 
@@ -331,10 +316,7 @@ public class Game2048 extends Game {
         
         for(int i = 0; i < numbers.length; i++) {
             for(int j = 0; j < numbers[i].length; j++) {
-                 URL imageURL = getClass().getResource("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber()) + ".png" );
-                 Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-                 ImageIcon icon = new ImageIcon(image2);
-                 board[i][j].setIcon(icon);
+                 board[i][j].setIcon(getIcon("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber()) + ".png"));
             }
         }
         
@@ -399,10 +381,7 @@ public class Game2048 extends Game {
             
             for(int i = 0; i < numbers.length; i++) {
                 for(int j = 0; j < numbers[i].length; j++) {
-                     URL imageURL = getClass().getResource("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber())  + ".png" );
-                     Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-                     ImageIcon icon = new ImageIcon(image2);
-                     board[i][j].setIcon(icon);                      
+                     board[i][j].setIcon(getIcon("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber())  + ".png"));                      
                 }
             }
             
@@ -445,6 +424,7 @@ public class Game2048 extends Game {
         }
          
     }
+
     
     private void gameOverCheck() {
          boolean full = true;
@@ -637,10 +617,7 @@ public class Game2048 extends Game {
         
         for(int i = 0; i < numbers.length; i++) {
             for(int j = 0; j < numbers[i].length; j++) {
-                 URL imageURL = getClass().getResource("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber()) + ".png" );
-                 Image image2 = Toolkit.getDefaultToolkit().getImage(imageURL);
-                 ImageIcon icon = new ImageIcon(image2);
-                 board[i][j].setIcon(icon);
+                 board[i][j].setIcon(getIcon("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber()) + ".png"));
             }
         }
 
