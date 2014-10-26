@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -43,6 +42,8 @@ public class Game2048 extends Game {
     Game2048() {
         
         super();
+        
+        setTitle("2048");
         
         ptr = this;
         
