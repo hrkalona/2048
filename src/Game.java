@@ -33,12 +33,12 @@ import sun.audio.AudioStream;
  *
  * @author hrkalona2
  */
-enum StateOfGame {HOW_TO, PLAY, WIN, END_GAME};
+enum StateOfGame {HOW_TO, PLAY, WIN, END_GAME, MAX_VALUE_REACHED};
 
 public abstract class Game extends JFrame {
   protected JPanel board_panel;
   protected JPanel main_panel;
-  protected JLabel score_plus_label;
+  protected FadeLabel score_plus_label;
   protected JPanel top_panel;
   protected JPanel top_panel2;
   protected JLabel score_label;
@@ -46,7 +46,8 @@ public abstract class Game extends JFrame {
   protected JLabel best_score_label;
   protected JPanel best_score_panel;
   protected JLabel moves_label;
-  protected JPanel moves_panel;      
+  protected JPanel moves_panel;
+  protected JPanel undo_panel;
   protected boolean sound_option;
   protected StateOfGame state;
   public static int UP = 0;
@@ -115,14 +116,13 @@ public abstract class Game extends JFrame {
         JLabel label = new JLabel("You Win!");
         label.setFont(new Font("default", Font.BOLD , 70 ));
         label.setForeground(new Color(239, 239, 238));
-        label.setBackground(new Color(237, 194, 46, 200));
  
         
         
         final JLabel label2 = new JLabel("Keep Going");
         label2.setFont(new Font("default", Font.BOLD , 40 ));
         label2.setForeground(new Color(239, 239, 238));
-        label2.setBackground(new Color(237, 194, 46, 200));
+
         
         
         label2.addMouseListener(new MouseListener() {
@@ -157,7 +157,6 @@ public abstract class Game extends JFrame {
         final JLabel label3 = new JLabel("Try Again");
         label3.setFont(new Font("default", Font.BOLD , 40 ));
         label3.setForeground(new Color(239, 239, 238));
-        label3.setBackground(new Color(187, 173, 160, 150));
         
         label3.addMouseListener(new MouseListener() {
 
@@ -236,14 +235,12 @@ public abstract class Game extends JFrame {
         JLabel label = new JLabel("Game Over!");
         label.setFont(new Font("default", Font.BOLD , 70 ));
         label.setForeground(new Color(239, 239, 238));
-        label.setBackground(new Color(187, 173, 160, 200));
  
         
         
         final JLabel label2 = new JLabel("Try Again");
         label2.setFont(new Font("default", Font.BOLD , 40 ));
         label2.setForeground(new Color(239, 239, 238));
-        label2.setBackground(new Color(187, 173, 160, 200));
         
         
         label2.addMouseListener(new MouseListener() {
@@ -278,7 +275,127 @@ public abstract class Game extends JFrame {
         final JLabel label3 = new JLabel("Exit");
         label3.setFont(new Font("default", Font.BOLD , 40 ));
         label3.setForeground(new Color(239, 239, 238));
-        label3.setBackground(new Color(187, 173, 160, 200));
+        
+        label3.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(state != StateOfGame.HOW_TO) {
+                    save();
+                }
+                
+                System.exit(0);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+  
+            }
+            
+        });
+
+        
+          
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 0;
+
+        end_game.add(label, c);  
+        
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 1;
+        
+        end_game.add(new JLabel("      "), c);
+  
+        
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 2;
+        
+        end_game.add(label2, c); 
+        
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 3;
+        
+        end_game.add(label3, c); 
+        
+        add(end_game);
+        
+        setGlassPane(end_game); 
+        getGlassPane().setVisible(true);
+    
+    }
+    
+    protected void endOfNumbers() {
+        
+        state = StateOfGame.MAX_VALUE_REACHED;
+        
+        final JPanel end_game = new JPanel();
+        end_game.setPreferredSize(new Dimension(getWidth(), getHeight()));
+        end_game.setBackground(new Color(34, 177, 76, 200));
+        end_game.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+      
+
+
+        JLabel label = new JLabel("The End!");
+        label.setFont(new Font("default", Font.BOLD , 70 ));
+        label.setForeground(new Color(239, 239, 238));
+ 
+        
+        
+        final JLabel label2 = new JLabel("Try Again");
+        label2.setFont(new Font("default", Font.BOLD , 40 ));
+        label2.setForeground(new Color(239, 239, 238));
+        
+        
+        label2.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                getGlassPane().setVisible(false);
+                restartGame();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+            
+        });
+         
+        
+        final JLabel label3 = new JLabel("Exit");
+        label3.setFont(new Font("default", Font.BOLD , 40 ));
+        label3.setForeground(new Color(239, 239, 238));
         
         label3.addMouseListener(new MouseListener() {
 
@@ -360,7 +477,7 @@ public abstract class Game extends JFrame {
         
         how_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10, 80));
         how_panel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        how_panel.setBackground(new Color(187, 173, 160, 200));
+        how_panel.setOpaque(false);
         
         JLabel label4 = new JLabel("HOW TO PLAY: ");
         label4.setFont(new Font("default", Font.BOLD , 15 ));
@@ -374,6 +491,7 @@ public abstract class Game extends JFrame {
         label8.setFont(new Font("default", Font.PLAIN , 15 ));
         JLabel label9 = new JLabel("into one!");
         label9.setFont(new Font("default", Font.PLAIN , 15 ));
+ 
         
         how_panel.add(label4);
         how_panel.add(label5);
@@ -386,7 +504,8 @@ public abstract class Game extends JFrame {
         JPanel arrows = new JPanel();
         arrows.setPreferredSize(new Dimension(3 * 59 + 4 * 3, 2 * 59 + 3 * 3));
         arrows.setLayout(new FlowLayout(FlowLayout.LEADING, 3, 3));
-        arrows.setBackground(new Color(187, 173, 160, 200));
+        arrows.setOpaque(false);
+
 
         JLabel label_up = new JLabel();
         label_up.setPreferredSize(new Dimension(59, 59));
@@ -422,7 +541,6 @@ public abstract class Game extends JFrame {
         final JLabel label2 = new JLabel("Start");
         label2.setFont(new Font("default", Font.BOLD , 40 ));
         label2.setForeground(new Color(239, 239, 238));
-        label2.setBackground(new Color(237, 194, 46, 200));
         
         
         label2.addMouseListener(new MouseListener() {

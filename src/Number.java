@@ -53,6 +53,12 @@ public class Number implements Serializable {
         
     }
     
+    public boolean is65536() {
+        
+        return number == 65536;
+        
+    }
+    
     public void resetNotUsed() {
         
         not_used = true;
