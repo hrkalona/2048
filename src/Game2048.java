@@ -433,16 +433,17 @@ public class Game2048 extends Game {
         if(endOfNumbersCheck()) {
             return;
         }
+        
+        if(gameOverCheck()) {
+            return;
+        }
 
         if(!won) {
             if(winCheck()) {
                 return;
             }
         }
-
-        if(gameOverCheck()) {
-            return;
-        }
+     
 
         Number[][] backup_numbers2 = new Number[4][4];
 
