@@ -14,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,6 +43,7 @@ public class Game2048 extends Game {
     private boolean used_undo;
     private Game2048 ptr;
     private boolean won = false;
+    private boolean light_mode;
 
     Game2048() {
 
@@ -53,6 +56,8 @@ public class Game2048 extends Game {
         if(!load()) {
             best_score = 0;
         }
+
+        getContentPane().setBackground(new Color(239, 239, 238));
 
 
         score = 0;
@@ -69,7 +74,7 @@ public class Game2048 extends Game {
 
         board = new FadeLabel[4][4];
 
-        board_panel = new JPanel();
+        board_panel = new RoundedPanel(false, true, false, 15);
         board_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10, 4 * 88 + 5 * 10));
         board_panel.setBackground(new Color(187, 173, 160));
         board_panel.setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
@@ -85,7 +90,7 @@ public class Game2048 extends Game {
 
 
         /*SCORE */
-        score_panel = new JPanel();
+        score_panel = new RoundedPanel(false, true, false, 14);
         score_panel.setPreferredSize(new Dimension(90, 52));
         score_panel.setBackground(new Color(187, 173, 160));
         score_panel.setLayout(new GridLayout(2, 1));
@@ -102,7 +107,7 @@ public class Game2048 extends Game {
         score_panel.add(score_label);
 
 
-        moves_panel = new JPanel();
+        moves_panel = new RoundedPanel(false, true, false, 14);
         moves_panel.setPreferredSize(new Dimension(68, 52));
         moves_panel.setBackground(new Color(187, 173, 160));
         moves_panel.setLayout(new GridLayout(2, 1));
@@ -120,7 +125,7 @@ public class Game2048 extends Game {
 
 
         /* BEST SCORE */
-        best_score_panel = new JPanel();
+        best_score_panel = new RoundedPanel(false, true, false, 14);
         best_score_panel.setPreferredSize(new Dimension(90, 52));
         best_score_panel.setBackground(new Color(187, 173, 160));
         best_score_panel.setLayout(new GridLayout(2, 1));
@@ -136,10 +141,11 @@ public class Game2048 extends Game {
         best_score_panel.add(best_score_label_1);
         best_score_panel.add(best_score_label);
 
-        JLabel label_2048 = new JLabel("2048");
+        label_2048 = new JLabel("2048");
 
         label_2048.setFont(new Font("default", Font.BOLD, 60));
         label_2048.setForeground(new Color(119, 110, 101));
+
 
         top_panel = new JPanel();
         top_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10, 80));
@@ -153,18 +159,18 @@ public class Game2048 extends Game {
 
 
         top_panel2 = new JPanel();
-        top_panel2.setPreferredSize(new Dimension(4 * 80 - 2, 30));
+        top_panel2.setPreferredSize(new Dimension(4 * 80 - 54, 30));
         top_panel2.setBackground(new Color(239, 239, 238));
         top_panel2.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 6));
 
-        JLabel label2 = new JLabel("Join the numbers and get to the");
-        label2.setFont(new Font("default", Font.PLAIN, 13));
-        JLabel label3 = new JLabel(" 2048 tile!");
-        label3.setFont(new Font("default", Font.BOLD, 13));
-        top_panel2.add(label2);
-        top_panel2.add(label3);
+        message_label1 = new JLabel("Join the numbers and get to the");
+        message_label1.setFont(new Font("default", Font.PLAIN, 13));
+        message_label2 = new JLabel(" 2048 tile!");
+        message_label2.setFont(new Font("default", Font.BOLD, 13));
+        top_panel2.add(message_label1);
+        top_panel2.add(message_label2);
 
-        JPanel top_panel3 = new JPanel();
+        top_panel3 = new JPanel();
         top_panel3.setPreferredSize(new Dimension(30, 30));
         top_panel3.setBackground(new Color(239, 239, 238));
         top_panel3.setLayout(new FlowLayout());
@@ -205,9 +211,9 @@ public class Game2048 extends Game {
             }
         });
 
-        undo_panel = new JPanel();
+        undo_panel = new RoundedPanel(false, true, false, 14);
         undo_panel.setPreferredSize(new Dimension(40, 24));
-        JLabel undo = new JLabel("UNDO", SwingConstants.HORIZONTAL);
+        undo = new JLabel("UNDO", SwingConstants.HORIZONTAL);
         undo.setFont(new Font("default", Font.BOLD, 12));
         undo.setForeground(new Color(239, 239, 238));
         undo_panel.setBackground(new Color(187, 173, 160));
@@ -219,7 +225,15 @@ public class Game2048 extends Game {
 
                 if(!used_undo) {
                     used_undo = true;
-                    undo_panel.setBackground(new Color(239, 239, 238));
+
+                    if(!light_mode) {
+                        undo_panel.setBackground(new Color(239, 239, 238));
+                    }
+                    else {
+                        undo_panel.setBackground(new Color(119, 110, 101));
+                        undo.setForeground(new Color(119, 110, 101));
+                    }
+
 
                     for(int i = 0; i < numbers.length; i++) {
                         for(int j = 0; j < numbers[i].length; j++) {
@@ -248,6 +262,7 @@ public class Game2048 extends Game {
                     best_score_label.setText("" + best_score);
 
                     moves_label.setText("" + moves);
+
                 }
             }
 
@@ -269,12 +284,46 @@ public class Game2048 extends Game {
         });
 
         undo_panel.add(undo);
+
+        new_game_panel = new RoundedPanel(false, true, false, 14);
+        new_game_panel.setPreferredSize(new Dimension(40, 24));
+        JLabel new_game = new JLabel("NEW", SwingConstants.HORIZONTAL);
+        new_game.setFont(new Font("default", Font.BOLD, 12));
+        new_game.setForeground(new Color(239, 239, 238));
+        new_game_panel.setBackground(new Color(187, 173, 160));
+
+        new_game.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                restartGame();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+
+        new_game_panel.add(new_game);
+
         top_panel3.add(sound);
 
 
-        JPanel temp_panel = new JPanel();
-        temp_panel.setPreferredSize(new Dimension(111, 15));
-        temp_panel.setBackground(new Color(239, 239, 238));
+        offset_panel = new JPanel();
+        offset_panel.setPreferredSize(new Dimension(111, 15));
+        offset_panel.setBackground(new Color(239, 239, 238));
 
         score_plus_label = new FadeLabel("", SwingConstants.HORIZONTAL, false, 10);
         score_plus_label.setFont(new Font("default", Font.BOLD, 15));
@@ -285,11 +334,13 @@ public class Game2048 extends Game {
         main_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10 + 40, 4 * 88 + 5 * 10 + 240));
         main_panel.setBackground(new Color(239, 239, 238));
 
-        main_panel.add(temp_panel);
+
+        main_panel.add(offset_panel);
         main_panel.add(score_plus_label);
         main_panel.add(top_panel);
         main_panel.add(top_panel2);
         main_panel.add(undo_panel);
+        main_panel.add(new_game_panel);
         main_panel.add(top_panel3);
         main_panel.add(board_panel);
 
@@ -337,7 +388,17 @@ public class Game2048 extends Game {
             }
         });
 
+        Calendar calendar = new GregorianCalendar();
+
+        if(calendar.get(Calendar.HOUR_OF_DAY) >= 17) {
+            setNightMode();
+        }
+        else {
+            setDayMode();
+        }
+
         state = StateOfGame.HOW_TO;
+
 
         new HowToThread(ptr).start();
 
@@ -415,7 +476,13 @@ public class Game2048 extends Game {
         moves_label.setText("" + moves);
 
         if(used_undo) {
-            undo_panel.setBackground(new Color(239, 239, 238));
+            if(!light_mode) {
+                undo_panel.setBackground(new Color(239, 239, 238));
+            }
+            else {
+                undo_panel.setBackground(new Color(119, 110, 101));
+                undo.setForeground(new Color(119, 110, 101));
+            }
         }
 
         state = StateOfGame.PLAY;
@@ -433,7 +500,7 @@ public class Game2048 extends Game {
         if(endOfNumbersCheck()) {
             return;
         }
-        
+
         if(gameOverCheck()) {
             return;
         }
@@ -443,7 +510,7 @@ public class Game2048 extends Game {
                 return;
             }
         }
-     
+
 
         Number[][] backup_numbers2 = new Number[4][4];
 
@@ -806,7 +873,13 @@ public class Game2048 extends Game {
             }
         }
 
-        undo_panel.setBackground(new Color(187, 173, 160));
+        if(!light_mode) {
+            undo_panel.setBackground(new Color(187, 173, 160));
+        }
+        else {
+            undo_panel.setBackground(new Color(187, 173, 160));
+            undo.setForeground(new Color(239, 239, 238));
+        }
 
         score_label.setText("" + score);
 
@@ -890,6 +963,42 @@ public class Game2048 extends Game {
 
         return board_panel;
 
+    }
+
+    private void setNightMode() {
+
+        getContentPane().setBackground(new Color(119, 110, 101));
+        main_panel.setBackground(new Color(119, 110, 101));
+        top_panel.setBackground(new Color(119, 110, 101));
+        top_panel2.setBackground(new Color(119, 110, 101));
+        top_panel3.setBackground(new Color(119, 110, 101));
+        offset_panel.setBackground(new Color(119, 110, 101));
+
+
+        label_2048.setForeground(new Color(239, 239, 238));
+        message_label1.setForeground(Color.white);
+        message_label2.setForeground(Color.white);
+        score_plus_label.setForeground(new Color(239, 239, 238));
+
+        light_mode = true;
+    }
+
+    private void setDayMode() {
+
+        getContentPane().setBackground(new Color(239, 239, 238));
+        main_panel.setBackground(new Color(239, 239, 238));
+        top_panel.setBackground(new Color(239, 239, 238));
+        top_panel2.setBackground(new Color(239, 239, 238));
+        top_panel3.setBackground(new Color(239, 239, 238));
+        offset_panel.setBackground(new Color(239, 239, 238));
+
+
+        label_2048.setForeground(new Color(119, 110, 101));
+        message_label1.setForeground(Color.BLACK);
+        message_label2.setForeground(Color.BLACK);
+        score_plus_label.setForeground(new Color(119, 110, 101));
+
+        light_mode = false;
     }
 
     public static void main(String[] args) {

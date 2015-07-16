@@ -1,5 +1,6 @@
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JLabel;
@@ -9,6 +10,7 @@ public class FadeLabel extends JLabel {
     private boolean fade_state;
     private int time;
     private volatile float alpha;
+
 
     private class Fader implements Runnable {
 
@@ -26,20 +28,19 @@ public class FadeLabel extends JLabel {
                 }
             }
             else { //fade out
-                while (!Thread.interrupted() && alpha > 0.0f) {
+                while(!Thread.interrupted() && alpha > 0.0f) {
                     repaint();
                     alpha = Math.max(0.0f, alpha - 0.01f);
                     try {
-                         Thread.sleep(time);
+                        Thread.sleep(time);
                     }
-                    catch (InterruptedException ignored) {
+                    catch(InterruptedException ignored) {
                     }
-               }
+                }
             }
 
         }
     }
-
 
     //~ Methods --------------------------------------------------------------------------------------
     public FadeLabel(String string, int opts, boolean fade_state, int time) {
@@ -47,7 +48,7 @@ public class FadeLabel extends JLabel {
 
         this.fade_state = fade_state;
         this.time = time;
-        
+
         if(fade_state) { //fade in
             alpha = 1.0f;
         }
@@ -60,6 +61,7 @@ public class FadeLabel extends JLabel {
     public void paintComponent(Graphics aGraphics) {
         Graphics2D g2 = (Graphics2D)aGraphics;
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        
         super.paintComponent(g2);
     }
 
@@ -70,7 +72,7 @@ public class FadeLabel extends JLabel {
         else { //fade out
             alpha = 1.0f;
         }
-        
+
         new Thread(new Fader()).start();
     }
 }

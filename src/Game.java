@@ -41,6 +41,7 @@ public abstract class Game extends JFrame {
   protected FadeLabel score_plus_label;
   protected JPanel top_panel;
   protected JPanel top_panel2;
+  protected JPanel top_panel3;
   protected JLabel score_label;
   protected JPanel score_panel;
   protected JLabel best_score_label;
@@ -48,6 +49,12 @@ public abstract class Game extends JFrame {
   protected JLabel moves_label;
   protected JPanel moves_panel;
   protected JPanel undo_panel;
+  protected JPanel new_game_panel;
+  protected JPanel offset_panel;
+  protected JLabel label_2048;
+  protected JLabel message_label1;
+  protected JLabel message_label2;
+  protected JLabel undo;
   protected boolean sound_option;
   protected StateOfGame state;
   public static int UP = 0;
@@ -499,6 +506,21 @@ public abstract class Game extends JFrame {
         how_panel.add(label7);
         how_panel.add(label8);
         how_panel.add(label9);
+        
+        
+        JPanel note_panel = new JPanel();
+        
+        note_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10, 80));
+        note_panel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
+        note_panel.setOpaque(false);
+        
+        JLabel label10 = new JLabel("NOTE: ");
+        label10.setFont(new Font("default", Font.BOLD , 15 ));
+        JLabel label11 = new JLabel("you may use the undo option once per game. ");
+        label11.setFont(new Font("default", Font.PLAIN , 15 ));
+        
+        note_panel.add(label10);
+        note_panel.add(label11);
       
 
         JPanel arrows = new JPanel();
@@ -574,25 +596,51 @@ public abstract class Game extends JFrame {
         c.fill = GridBagConstraints.CENTER;
         c.gridx = 0;
         c.gridy = 0;
-
-        how_to_panel.add(how_panel, c);  
-
+        
+        how_to_panel.add(new JLabel("      "), c);
+        
         c.fill = GridBagConstraints.CENTER;
         c.gridx = 0;
         c.gridy = 1;
-
-        how_to_panel.add(arrows, c);  
+        
+        how_to_panel.add(new JLabel("      "), c);
         
         c.fill = GridBagConstraints.CENTER;
         c.gridx = 0;
         c.gridy = 2;
         
         how_to_panel.add(new JLabel("      "), c);
-  
         
         c.fill = GridBagConstraints.CENTER;
         c.gridx = 0;
         c.gridy = 3;
+
+        how_to_panel.add(how_panel, c);  
+
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 4;
+        
+        how_to_panel.add(note_panel, c);  
+
+         
+        
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 5;
+        
+        how_to_panel.add(arrows, c); 
+        
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 6;
+        
+        how_to_panel.add(new JLabel("      "), c);
+  
+        
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 7;
         
         how_to_panel.add(label2, c); 
 
