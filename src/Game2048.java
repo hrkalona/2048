@@ -459,8 +459,18 @@ public class Game2048 extends Game {
                 }
             }
         }
-
+        
+        
         won = false;
+        
+        for(int i = 0; i < numbers.length; i++) {
+            for(int j = 0; j < numbers[i].length; j++) {
+                if(numbers[i][j] != null && numbers[i][j].getNumber() >= 2048) {
+                    won = true;
+                    break;
+                }
+            }
+        }
 
         for(int i = 0; i < numbers.length; i++) {
             for(int j = 0; j < numbers[i].length; j++) {
