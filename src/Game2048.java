@@ -390,7 +390,7 @@ public class Game2048 extends Game {
 
         Calendar calendar = new GregorianCalendar();
 
-        if(calendar.get(Calendar.HOUR_OF_DAY) >= 18 && calendar.get(Calendar.HOUR_OF_DAY) < 9) {
+        if(calendar.get(Calendar.HOUR_OF_DAY) >= 18 || calendar.get(Calendar.HOUR_OF_DAY) < 9) {
             setNightMode();
         }
         else {
