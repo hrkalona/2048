@@ -14,12 +14,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 /*
  * To change this template, choose Tools | Templates
@@ -58,7 +60,6 @@ public class Game2048 extends Game {
         }
 
         getContentPane().setBackground(new Color(239, 239, 238));
-
 
         score = 0;
         moves = 0;
@@ -106,7 +107,6 @@ public class Game2048 extends Game {
         score_panel.add(score_label_1);
         score_panel.add(score_label);
 
-
         moves_panel = new RoundedPanel(false, true, false, 14);
         moves_panel.setPreferredSize(new Dimension(68, 52));
         moves_panel.setBackground(new Color(187, 173, 160));
@@ -146,7 +146,6 @@ public class Game2048 extends Game {
         label_2048.setFont(new Font("default", Font.BOLD, 60));
         label_2048.setForeground(new Color(119, 110, 101));
 
-
         top_panel = new JPanel();
         top_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10, 80));
         top_panel.setBackground(new Color(239, 239, 238));
@@ -156,7 +155,6 @@ public class Game2048 extends Game {
         top_panel.add(moves_panel);
         top_panel.add(score_panel);
         top_panel.add(best_score_panel);
-
 
         top_panel2 = new JPanel();
         top_panel2.setPreferredSize(new Dimension(4 * 80 - 54, 30));
@@ -233,7 +231,6 @@ public class Game2048 extends Game {
                         undo_panel.setBackground(new Color(119, 110, 101));
                         undo.setForeground(new Color(119, 110, 101));
                     }
-
 
                     for(int i = 0; i < numbers.length; i++) {
                         for(int j = 0; j < numbers[i].length; j++) {
@@ -320,7 +317,6 @@ public class Game2048 extends Game {
 
         top_panel3.add(sound);
 
-
         offset_panel = new JPanel();
         offset_panel.setPreferredSize(new Dimension(111, 15));
         offset_panel.setBackground(new Color(239, 239, 238));
@@ -333,7 +329,6 @@ public class Game2048 extends Game {
         main_panel = new JPanel();
         main_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10 + 40, 4 * 88 + 5 * 10 + 240));
         main_panel.setBackground(new Color(239, 239, 238));
-
 
         main_panel.add(offset_panel);
         main_panel.add(score_plus_label);
@@ -399,9 +394,6 @@ public class Game2048 extends Game {
 
         state = StateOfGame.HOW_TO;
 
-
-        new HowToThread(ptr).start();
-
     }
 
     @Override
@@ -434,7 +426,6 @@ public class Game2048 extends Game {
 
             } while(true);
 
-
             do {
                 int index_i = generator.nextInt(numbers.length);
                 int index_j = generator.nextInt(numbers.length);
@@ -459,10 +450,9 @@ public class Game2048 extends Game {
                 }
             }
         }
-        
-        
+
         won = false;
-        
+
         for(int i = 0; i < numbers.length; i++) {
             for(int j = 0; j < numbers[i].length; j++) {
                 if(numbers[i][j] != null && numbers[i][j].getNumber() >= 2048) {
@@ -506,7 +496,6 @@ public class Game2048 extends Game {
     @Override
     public void normal_move(int where) {
 
-
         if(endOfNumbersCheck()) {
             return;
         }
@@ -520,7 +509,6 @@ public class Game2048 extends Game {
                 return;
             }
         }
-
 
         Number[][] backup_numbers2 = new Number[4][4];
 
@@ -574,7 +562,6 @@ public class Game2048 extends Game {
 
             moves++;
 
-
             for(int i = 0; i < numbers.length; i++) {
                 for(int j = 0; j < numbers[i].length; j++) {
                     board[i][j].setIcon(getIcon("/Icons/" + (numbers[i][j] == null ? 0 : numbers[i][j].getNumber()) + ".png"));
@@ -584,7 +571,6 @@ public class Game2048 extends Game {
                     }
                 }
             }
-
 
             score += result[1];
             score_label.setText("" + score);
@@ -628,7 +614,6 @@ public class Game2048 extends Game {
     }
 
     private boolean winCheck() {
-
 
         for(int i = 0; i < numbers.length; i++) {
             for(int j = 0; j < numbers[i].length; j++) {
@@ -679,7 +664,6 @@ public class Game2048 extends Game {
                 }
             }
         }
-
 
         if(full) {
             boolean can_move = false;
@@ -966,7 +950,6 @@ public class Game2048 extends Game {
 
         return true;
 
-
     }
 
     public JPanel getBoardPanel() {
@@ -983,7 +966,6 @@ public class Game2048 extends Game {
         top_panel2.setBackground(new Color(119, 110, 101));
         top_panel3.setBackground(new Color(119, 110, 101));
         offset_panel.setBackground(new Color(119, 110, 101));
-
 
         label_2048.setForeground(new Color(239, 239, 238));
         message_label1.setForeground(Color.white);
@@ -1002,7 +984,6 @@ public class Game2048 extends Game {
         top_panel3.setBackground(new Color(239, 239, 238));
         offset_panel.setBackground(new Color(239, 239, 238));
 
-
         label_2048.setForeground(new Color(119, 110, 101));
         message_label1.setForeground(Color.BLACK);
         message_label2.setForeground(Color.BLACK);
@@ -1010,12 +991,23 @@ public class Game2048 extends Game {
 
         light_mode = false;
     }
+    
+    public static void main(String[] args) throws InterruptedException, InvocationTargetException {
+        
+        final Game2048 game = new Game2048();
+        
+        SwingUtilities.invokeAndWait(new Runnable() {
+            public void run() {
+                game.setVisible(true);
+            }
+        });
+        
+        
 
-    public static void main(String[] args) {
-
-        Game2048 game = new Game2048();
-
-        game.setVisible(true);
-
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+               game.howTo();               
+            }
+        });
     }
 }

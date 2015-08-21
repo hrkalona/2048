@@ -469,7 +469,7 @@ public abstract class Game extends JFrame {
     
     }
     
-    protected void howTo() {
+    public void howTo() {
         
         state = StateOfGame.HOW_TO;
         
