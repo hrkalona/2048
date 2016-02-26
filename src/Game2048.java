@@ -3,11 +3,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -318,13 +321,70 @@ public class Game2048 extends Game {
         top_panel3.add(sound);
 
         offset_panel = new JPanel();
-        offset_panel.setPreferredSize(new Dimension(111, 15));
+        offset_panel.setPreferredSize(new Dimension(206, 15));
         offset_panel.setBackground(new Color(239, 239, 238));
+
+        offset_panel2 = new JPanel();
+        offset_panel2.setPreferredSize(new Dimension(65, 15));
+        offset_panel2.setBackground(new Color(239, 239, 238));
 
         score_plus_label = new FadeLabel("", SwingConstants.HORIZONTAL, false, 10);
         score_plus_label.setFont(new Font("default", Font.BOLD, 15));
         score_plus_label.setPreferredSize(new Dimension(90, 15));
         score_plus_label.setForeground(new Color(119, 110, 101));
+
+        final RoundedPanel exit_panel = new RoundedPanel(false, true, false, 14);
+        exit_panel.setPreferredSize(new Dimension(25, 25));
+        exit_panel.setBackground(new Color(216, 73, 55));
+
+        GridBagConstraints c = new GridBagConstraints();
+        exit_panel.setLayout(new GridBagLayout());
+
+        JLabel x = new JLabel("X");
+        x.setFont(new Font("default", Font.BOLD, 15));
+
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 0;
+
+        exit_panel.add(x, c);
+
+        exit_panel.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(state != StateOfGame.HOW_TO) {
+                    save();
+                }
+
+                System.exit(0);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exit_panel.setBackground(new Color(255, 255, 193));
+
+                if(sound_option) {
+                    playWav("/Sounds/tick.wav");
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exit_panel.setBackground(new Color(216, 73, 55));
+            }
+
+        });
 
         main_panel = new JPanel();
         main_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10 + 40, 4 * 88 + 5 * 10 + 240));
@@ -332,6 +392,8 @@ public class Game2048 extends Game {
 
         main_panel.add(offset_panel);
         main_panel.add(score_plus_label);
+        main_panel.add(offset_panel2);
+        main_panel.add(exit_panel);
         main_panel.add(top_panel);
         main_panel.add(top_panel2);
         main_panel.add(undo_panel);
@@ -393,6 +455,8 @@ public class Game2048 extends Game {
         }
 
         state = StateOfGame.HOW_TO;
+
+        howTo();
 
     }
 
@@ -966,6 +1030,7 @@ public class Game2048 extends Game {
         top_panel2.setBackground(new Color(119, 110, 101));
         top_panel3.setBackground(new Color(119, 110, 101));
         offset_panel.setBackground(new Color(119, 110, 101));
+        offset_panel2.setBackground(new Color(119, 110, 101));
 
         label_2048.setForeground(new Color(239, 239, 238));
         message_label1.setForeground(Color.white);
@@ -983,6 +1048,7 @@ public class Game2048 extends Game {
         top_panel2.setBackground(new Color(239, 239, 238));
         top_panel3.setBackground(new Color(239, 239, 238));
         offset_panel.setBackground(new Color(239, 239, 238));
+        offset_panel.setBackground(new Color(239, 239, 238));
 
         label_2048.setForeground(new Color(119, 110, 101));
         message_label1.setForeground(Color.BLACK);
@@ -991,23 +1057,11 @@ public class Game2048 extends Game {
 
         light_mode = false;
     }
-    
-    public static void main(String[] args) throws InterruptedException, InvocationTargetException {
-        
-        final Game2048 game = new Game2048();
-        
-        SwingUtilities.invokeAndWait(new Runnable() {
-            public void run() {
-                game.setVisible(true);
-            }
-        });
-        
-        
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-               game.howTo();               
-            }
-        });
+    public static void main(String[] args) {
+
+        final Game2048 game = new Game2048();
+        game.setVisible(true);
+
     }
 }
