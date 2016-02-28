@@ -373,10 +373,6 @@ public class Game2048 extends Game {
             @Override
             public void mouseEntered(MouseEvent e) {
                 exit_panel.setBackground(new Color(255, 255, 193));
-
-                if(sound_option) {
-                    playWav("/Sounds/tick.wav");
-                }
             }
 
             @Override
