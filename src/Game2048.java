@@ -761,101 +761,27 @@ public class Game2048 extends Game {
         return false;
     }
 
-    public int[] move(int where) {
+    public int[] moveLeft() {
 
         int moved = 0;
-
         int achieved_score = 0;
 
-        if(where == UP) {
-            for(int j = 0; j < numbers.length; j++) {
-                //int boundary = 0;
-                for(int i = 0; i < numbers[j].length; i++) {
-                    int k = i - 1;
-                    while(k >= 0) {
-                        if(numbers[k][j] == null && numbers[k + 1][j] != null) {
-                            numbers[k][j] = numbers[k + 1][j];
-                            numbers[k + 1][j] = null;
-                            moved = 1;
-                        }
-                        else if(numbers[k][j] != null && numbers[k + 1][j] != null && numbers[k][j].getNumber() == numbers[k + 1][j].getNumber() && numbers[k][j].notUsed() && numbers[k + 1][j].notUsed()) {//&& k >= boundary) {
-                            numbers[k][j].times2();
-                            achieved_score += numbers[k][j].getNumber();
-                            numbers[k + 1][j] = null;
-                            moved = 1;
-                            //boundary = k + 1;
-                        }
-                        k--;
+        for(int i = 0; i < numbers.length; i++) {
+            for(int j = 0; j < numbers[i].length - 1; j++) {
+                int k = j;
+                while(k >= 0) {
+                    if(numbers[i][k] == null && numbers[i][k + 1] != null) {
+                        numbers[i][k] = numbers[i][k + 1];
+                        numbers[i][k + 1] = null;
+                        moved = 1;
                     }
-                }
-            }
-        }
-        else if(where == DOWN) {
-            for(int j = 0; j < numbers.length; j++) {
-                //int boundary = numbers[j].length;
-                for(int i = numbers[j].length - 1; i >= 0; i--) {
-                    int k = i + 1;
-                    while(k < numbers[j].length) {
-                        if(numbers[k][j] == null && numbers[k - 1][j] != null) {
-                            numbers[k][j] = numbers[k - 1][j];
-                            numbers[k - 1][j] = null;
-                            moved = 1;
-                        }
-                        else if(numbers[k][j] != null && numbers[k - 1][j] != null && numbers[k][j].getNumber() == numbers[k - 1][j].getNumber() && numbers[k][j].notUsed() && numbers[k - 1][j].notUsed()) { //&& k <= boundary) {
-                            numbers[k][j].times2();
-                            achieved_score += numbers[k][j].getNumber();
-                            numbers[k - 1][j] = null;
-                            moved = 1;
-                            //boundary = k - 1;
-                        }
-                        k++;
+                    else if(numbers[i][k] != null && numbers[i][k + 1] != null && numbers[i][k].getNumber() == numbers[i][k + 1].getNumber() && numbers[i][k].notUsed() && numbers[i][k + 1].notUsed()) {//k >= boundary) {
+                        numbers[i][k].times2();
+                        achieved_score += numbers[i][k].getNumber();
+                        numbers[i][k + 1] = null;
+                        moved = 1;
                     }
-                }
-            }
-        }
-        else if(where == LEFT) {
-            for(int i = 0; i < numbers.length; i++) {
-                //int boundary = 0;
-                for(int j = 0; j < numbers[i].length; j++) {
-                    int k = j - 1;
-                    while(k >= 0) {
-                        if(numbers[i][k] == null && numbers[i][k + 1] != null) {
-                            numbers[i][k] = numbers[i][k + 1];
-                            numbers[i][k + 1] = null;
-                            moved = 1;
-                        }
-                        else if(numbers[i][k] != null && numbers[i][k + 1] != null && numbers[i][k].getNumber() == numbers[i][k + 1].getNumber() && numbers[i][k].notUsed() && numbers[i][k + 1].notUsed()) {//k >= boundary) {
-                            numbers[i][k].times2();
-                            achieved_score += numbers[i][k].getNumber();
-                            numbers[i][k + 1] = null;
-                            moved = 1;
-                            //boundary = k + 1;
-                        }
-                        k--;
-                    }
-                }
-            }
-        }
-        else if(where == RIGHT) {
-            for(int i = 0; i < numbers.length; i++) {
-                //int boundary = numbers[i].length;
-                for(int j = numbers[i].length - 1; j >= 0; j--) {
-                    int k = j + 1;
-                    while(k < numbers[i].length) {
-                        if(numbers[i][k] == null && numbers[i][k - 1] != null) {
-                            numbers[i][k] = numbers[i][k - 1];
-                            numbers[i][k - 1] = null;
-                            moved = 1;
-                        }
-                        else if(numbers[i][k] != null && numbers[i][k - 1] != null && numbers[i][k].getNumber() == numbers[i][k - 1].getNumber() && numbers[i][k].notUsed() && numbers[i][k - 1].notUsed()) {//k <= boundary) {
-                            numbers[i][k].times2();
-                            achieved_score += numbers[i][k].getNumber();
-                            numbers[i][k - 1] = null;
-                            moved = 1;
-                            //boundary = k - 1;
-                        }
-                        k++;
-                    }
+                    k--;
                 }
             }
         }
@@ -866,6 +792,126 @@ public class Game2048 extends Game {
         result[1] = achieved_score;
 
         return result;
+
+    }
+
+    public int[] moveUp() {
+
+        int moved = 0;
+        int achieved_score = 0;
+
+        for(int j = 0; j < numbers.length; j++) {
+            for(int i = 0; i < numbers[j].length - 1; i++) {
+                int k = i;
+                while(k >= 0) {
+                    if(numbers[k][j] == null && numbers[k + 1][j] != null) {
+                        numbers[k][j] = numbers[k + 1][j];
+                        numbers[k + 1][j] = null;
+                        moved = 1;
+                    }
+                    else if(numbers[k][j] != null && numbers[k + 1][j] != null && numbers[k][j].getNumber() == numbers[k + 1][j].getNumber() && numbers[k][j].notUsed() && numbers[k + 1][j].notUsed()) {//&& k >= boundary) {
+                        numbers[k][j].times2();
+                        achieved_score += numbers[k][j].getNumber();
+                        numbers[k + 1][j] = null;
+                        moved = 1;
+                    }
+                    k--;
+                }
+            }
+        }
+
+        int[] result = new int[2];
+
+        result[0] = moved;
+        result[1] = achieved_score;
+
+        return result;
+
+    }
+
+    public int[] moveDown() {
+
+        int moved = 0;
+        int achieved_score = 0;
+
+        for(int j = 0; j < numbers.length; j++) {
+            for(int i = numbers[j].length - 1; i > 0; i--) {
+                int k = i;
+                while(k < numbers[j].length) {
+                    if(numbers[k][j] == null && numbers[k - 1][j] != null) {
+                        numbers[k][j] = numbers[k - 1][j];
+                        numbers[k - 1][j] = null;
+                        moved = 1;
+                    }
+                    else if(numbers[k][j] != null && numbers[k - 1][j] != null && numbers[k][j].getNumber() == numbers[k - 1][j].getNumber() && numbers[k][j].notUsed() && numbers[k - 1][j].notUsed()) { //&& k <= boundary) {
+                        numbers[k][j].times2();
+                        achieved_score += numbers[k][j].getNumber();
+                        numbers[k - 1][j] = null;
+                        moved = 1;
+                    }
+                    k++;
+                }
+            }
+        }
+
+        int[] result = new int[2];
+
+        result[0] = moved;
+        result[1] = achieved_score;
+
+        return result;
+
+    }
+
+    public int[] moveRight() {
+
+        int moved = 0;
+        int achieved_score = 0;
+
+        for(int i = 0; i < numbers.length; i++) {
+            for(int j = numbers[i].length - 1; j > 0; j--) {
+                int k = j;
+                while(k < numbers[i].length) {
+                    if(numbers[i][k] == null && numbers[i][k - 1] != null) {
+                        numbers[i][k] = numbers[i][k - 1];
+                        numbers[i][k - 1] = null;
+                        moved = 1;
+                    }
+                    else if(numbers[i][k] != null && numbers[i][k - 1] != null && numbers[i][k].getNumber() == numbers[i][k - 1].getNumber() && numbers[i][k].notUsed() && numbers[i][k - 1].notUsed()) {//k <= boundary) {
+                        numbers[i][k].times2();
+                        achieved_score += numbers[i][k].getNumber();
+                        numbers[i][k - 1] = null;
+                        moved = 1;
+                    }
+                    k++;
+                }
+            }
+        }
+
+        int[] result = new int[2];
+
+        result[0] = moved;
+        result[1] = achieved_score;
+
+        return result;
+
+    }
+
+    public int[] move(int where) {
+
+        if(where == UP) {
+            return moveUp();
+        }
+        else if(where == DOWN) {
+            return moveDown();
+        }
+        else if(where == LEFT) {
+            return moveLeft();
+        }
+        else {
+            return moveRight();
+        }
+        
     }
 
     @Override
