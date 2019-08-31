@@ -697,7 +697,7 @@ public abstract class Game extends JFrame {
 
         state = StateOfGame.HOW_TO;
 
-        final JPanel p = new JPanel() {
+        final JPanel p = new MotionPanel(this) {
             public void paintComponent(Graphics g) {
                 g.setColor(new Color(187, 173, 160, 200));
                 g.fillRect(0, 0, getWidth(), getHeight());

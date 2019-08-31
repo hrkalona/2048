@@ -10,21 +10,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 /*
  * To change this template, choose Tools | Templates
@@ -382,7 +379,7 @@ public class Game2048 extends Game {
 
         });
 
-        main_panel = new JPanel();
+        main_panel = new MotionPanel(this);
         main_panel.setPreferredSize(new Dimension(4 * 88 + 5 * 10 + 40, 4 * 88 + 5 * 10 + 240));
         main_panel.setBackground(new Color(239, 239, 238));
 
